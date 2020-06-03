@@ -15,20 +15,27 @@ public class DepartmentDAO {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
 
-    public int add () {
+    public int save (Department department) {
         Connection conn = null;
-        Statement stmt = null;
+      //  Statement stmt = null;
+
         int r = 0;
+        PreparedStatement ps = null;
         try {
 
             logger.debug("Connection to a database...");
             conn = DriverManager.getConnection(DBURL, USER, PASS);
 
             logger.info("Creating statement...");
-            stmt = conn.createStatement();
+           // ps = conn.createStatement();
             String sql;
             sql = "INSERT INTO departments (name, description, location)" + "VALUES (?,?,?)";
-            r = stmt.executeUpdate(sql);
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, department.getName());
+            ps.setString(2, department.getDescription());
+            ps.setString(3, department.getLocation());
+
+            r = ps.executeUpdate();
 
         }
         catch(SQLException e){
@@ -37,7 +44,7 @@ public class DepartmentDAO {
         finally {
 
             try {
-                if(stmt != null) stmt.close();
+                if (ps != null) { ps.close();}
                 if(conn != null) conn.close();
             }
             catch(SQLException se) {
@@ -53,10 +60,8 @@ public class DepartmentDAO {
         Statement stmt = null;
         int r = 0;
         try {
-            //STEP 2: Open a connection
             logger.debug("Connection to a database...");
             conn = DriverManager.getConnection(DBURL, USER, PASS);
-            //STEP 3: Execute a query
             logger.info("Creating statement...");
             stmt = conn.createStatement();
             String sql;
@@ -156,6 +161,9 @@ public class DepartmentDAO {
         }
         return departments;
     }
+
+
+
 
 
 
