@@ -29,6 +29,26 @@ public class Department {
         this.location = location;
     }
 
+    public long getId()
+    {
+        return id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public String getLocation()
+    {
+        return location;
+    }
+
 
 
 }

@@ -27,7 +27,6 @@ public class DepartmentDAO {
             conn = DriverManager.getConnection(DBURL, USER, PASS);
 
             logger.info("Creating statement...");
-           // ps = conn.createStatement();
             String sql;
             sql = "INSERT INTO departments (name, description, location)" + "VALUES (?,?,?)";
             ps = conn.prepareStatement(sql);
@@ -54,26 +53,28 @@ public class DepartmentDAO {
         return r;
     }
 
-    public int delete(){
+    public int delete(String name){
 
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement ps = null;
         int r = 0;
         try {
             logger.debug("Connection to a database...");
             conn = DriverManager.getConnection(DBURL, USER, PASS);
             logger.info("Creating statement...");
-            stmt = conn.createStatement();
-            String sql;
-            sql = "DELETE FROM DEPARTMENTS WHERE NAME = ?";
-           r = stmt.executeUpdate(sql);
+
+            String sql = "DELETE FROM DEPARTMENTS WHERE NAME = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,name);
+
+            r = ps.executeUpdate();
         }
         catch(SQLException e){
             e.printStackTrace();
         }
         finally {
             try {
-                if(stmt != null) stmt.close();
+                if (ps != null) ps.close();
                 if(conn != null) conn.close();
             }
             catch(SQLException se) {
@@ -83,18 +84,22 @@ public class DepartmentDAO {
         return r;
     }
 
-    public int update(){
+    public int update(String oldName, Department department){
 
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement ps = null;
         int r = 0;
         try {
             logger.debug("Connection to a database...");
             conn = DriverManager.getConnection(DBURL, USER, PASS);
             logger.info("Creating statement...");
-            stmt = conn.createStatement();
             String sql = "UPDATE departments SET name=?, description=?, location=? WHERE name=?";
-            r = stmt.executeUpdate(sql);
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,department.getName());
+            ps.setString(2,department.getDescription());
+            ps.setString(3,department.getLocation());
+            ps.setString(4,oldName);
+            r = ps.executeUpdate();
 
         }
         catch(SQLException e){
@@ -102,7 +107,7 @@ public class DepartmentDAO {
         }
         finally {
             try {
-                if(stmt != null) stmt.close();
+                if (ps != null) ps.close();
                 if(conn != null) conn.close();
             }
             catch(SQLException se) {
