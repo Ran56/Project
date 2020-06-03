@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DepartmentDaoTest {
     private  DepartmentDAO departmentJDBCDAO;
@@ -24,10 +25,25 @@ public class DepartmentDaoTest {
     @Test
     public void getDepartmentsTest()
     {
-//aaaaaa
 
         assertEquals(4,departmentJDBCDAO.getDepartments().size());
     }
+    @Test
+    public void update()
+    {
+        assertTrue(-1 < departmentJDBCDAO.update());
+    }
+    @Test
+    public void delete()
+    {
+        assertTrue(0 < departmentJDBCDAO.delete());
+    }
+    @Test
+    public void add ()
+    {
+        assertTrue(0 < departmentJDBCDAO.add());
+    }
+
 
 
 
