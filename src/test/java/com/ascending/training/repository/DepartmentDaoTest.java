@@ -9,8 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DepartmentDaoTest {
     private static Logger logger = LoggerFactory.getLogger(DepartmentDaoTest.class);
@@ -36,12 +35,15 @@ public class DepartmentDaoTest {
     @Test
     public void update()
     {
+
         String oldName = "HR";
+        //departmentJDBCDAO = getDepartmentsTest();
         department.setName("Marketing");
         department.setDescription("this is a marketing department");
         department.setLocation("Crystal city VA");
 
         assertEquals(1, departmentJDBCDAO.update(oldName,department));
+        assertNotSame(oldName,department.getName());
         logger.info("Update data succeed");
     }
     @Test
