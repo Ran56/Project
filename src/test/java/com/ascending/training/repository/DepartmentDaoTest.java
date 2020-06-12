@@ -1,7 +1,9 @@
 package com.ascending.training.repository;
 
 import com.ascending.training.model.Department;
+import com.ascending.training.model.DepartmentHQL;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -9,62 +11,41 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DepartmentDaoTest {
-    private static Logger logger = LoggerFactory.getLogger(DepartmentDaoTest.class);
-    private  DepartmentDAO departmentJDBCDAO;
-    private  Department department;
-    @Before
-    public void setUP()
-    {
-         departmentJDBCDAO = new DepartmentDAO();
-         department = new Department();
-    }
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private DepartmentDao departmentDao;
+    private DepartmentHQL departmentHQL;
+
+   @Before
+   public void setUp()
+   {
+       departmentDao = new DepartmentDaoImpl();
+       departmentHQL = new DepartmentHQL();
+       departmentHQL.setName("MIRCO");
+       departmentHQL.setDescription("technological company");
+       departmentHQL.setLocation("addddd");
+       departmentDao.save(departmentHQL);
+
+
+   }
     @After
     public void tearDown()
     {
-        departmentJDBCDAO = null;
+
+        departmentDao.delete(departmentHQL);
     }
+
     @Test
     public void getDepartmentsTest()
     {
+        List<DepartmentHQL> departments = departmentDao.getDepartments();
+        int expectedNumOfDept = 1;
 
-        assertEquals(4,departmentJDBCDAO.getDepartments().size());
+        Assert.assertEquals(expectedNumOfDept,departments.size());
+
     }
-    @Test
-    public void update()
-    {
-
-        String oldName = "HR";
-        //departmentJDBCDAO = getDepartmentsTest();
-        department.setName("Marketing");
-        department.setDescription("this is a marketing department");
-        department.setLocation("Crystal city VA");
-
-        assertEquals(1, departmentJDBCDAO.update(oldName,department));
-        assertNotSame(oldName,department.getName());
-        logger.info("Update data succeed");
-    }
-    @Test
-    public void delete()
-    {
-        department.setName("Marketing");
-        assertEquals(1,departmentJDBCDAO.delete(department.getName()));
-        logger.info("Delete data succeed");
-    }
-    @Test
-    public void save ()
-    {
-        department.setName("Alibaba");
-        department.setDescription("technological company");
-        department.setLocation("addddd");
-        logger.info("Input succeed");
-        assertEquals(1,departmentJDBCDAO.save(department));
-        logger.info("Insert data succeed");
-    }
-
-
 
 
 

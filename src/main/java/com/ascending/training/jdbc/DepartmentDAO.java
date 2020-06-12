@@ -1,4 +1,4 @@
-package com.ascending.training.repository;
+package com.ascending.training.jdbc;
 import com.ascending.training.model.Department;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

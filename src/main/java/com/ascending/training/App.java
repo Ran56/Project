@@ -3,68 +3,85 @@ package com.ascending.training;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Hello world!
  *
  */
- public  class App implements TestIs
-{
-    private Logger logger1 = LoggerFactory.getLogger(getClass());
+  class App implements Comparable<App>{
+    String name;
+    int age;
 
-    class Te
+    public App(String name, int age)
     {
-        int aaaa=20;
+        super();
+        this.name = name;
+        this.age = age;
     }
 
-    public static void main( String[] args )
+    public String getName()
+    {
+        return name;
+    }
 
+    public int getAge()
+    {
+        return age;
+    }
+
+    @Override
+    public int compareTo(App p)
+    {
+        return this.age-p.getAge();
+    }
+
+    public static void main(String[] args)
     {
 
-        App appp = new App();
-        int a = 20;
-        int b = 30;
-        System.out.println(a+b);
+        List<App> list = new ArrayList<>();
+        list.add(new App("xujian", 70));
 
-        Level level = Level.MEDIUM;
-        switch (level)
+
+        list.add(new App("Yujian", 50));
+
+
+        list.add(new App("xiewei", 20));
+
+        System.out.println("排序前");
+        for (App person : list)
         {
-            case LOW:
-                System.out.println("LOW");
-                break;
-            case MEDIUM:
-                System.out.println("MEDIUM");
-                break;
-            case HIGH:
-                System.out.println("HIGH");
-                break;
+            System.out.print(person.getName()+":"+person.getAge());
         }
-        appp.logger1.info("hello world"+" "+(a+b));
-        System.out.println(level);
 
+
+        Collections.sort(list);
+        System.out.println("\n排序后");
+        for (App person : list)
+        {
+            System.out.print(person.getName()+":"+person.getAge());
+        }
     }
 
-    public void hours()
-    {
-        System.out.println(ab);
-    }
 }
 
 
-interface TestIs
-{
-    int ab = 20;
-    public void hours();
 
 
-}
+//
+//interface TestIs
+//{
+//    int ab = 20;
+//    public void hours();
+//
+//
+//}
 
-enum Level
-{
-    LOW,
-    MEDIUM,
-    HIGH
-}
-
-
+//enum Level
+//{
+//    LOW,
+//    MEDIUM,
+//    HIGH
+//}
+//
+//
