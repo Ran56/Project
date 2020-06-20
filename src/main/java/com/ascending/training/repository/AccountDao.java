@@ -22,7 +22,7 @@ public interface AccountDao {
 
 
 
-    AccountHQL getDepartmentAndEmployeesBy(String accountName);  //命名有问题
+    AccountHQL getAccountsAndEmployeeBy(String accountName);  //命名有问题
     List<Object[]> getDepartmentAndEmployeesAndAccounts(String accountName);
 
 
