@@ -8,8 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -18,18 +16,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes= ApplicationBootstrap.class)
-
-public class DepartmentDaoTest1 {
+public class DepartmentDaoTestManyToOne {
 
     private DepartmentHQL d1;
     private EmployeeHQL e1;
     private EmployeeHQL e2;
 
-    @Autowired
     private DepartmentDao departmentDao;
-    @Autowired
     private EmployeeDao employeeDao;
 
 
@@ -37,14 +30,14 @@ public class DepartmentDaoTest1 {
     public void setUp()
 {
     d1 = new DepartmentHQL();
-//    departmentDao = new DepartmentDaoImpl();
+    departmentDao = new DepartmentDaoImpl();
 
     d1.setName("AMZA");
     d1.setDescription("this is AMZA");
     d1.setLocation("Arlington");
     d1 = departmentDao.save(d1);
 
-//    employeeDao = new EmployeeDaoImpl();
+    employeeDao = new EmployeeDaoImpl();
     e1 = new EmployeeHQL();
     e1.setName("Zhangr");
     e1.setAddress("us");
@@ -89,8 +82,4 @@ public class DepartmentDaoTest1 {
         //怎么存过去到set里？？？？？
 
 }
-
-
-
-
 }

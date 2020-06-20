@@ -2,6 +2,7 @@ package com.ascending.training.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 
 @Entity //domain, model, entity都是表达同一个东西在这里用@Entity
@@ -16,13 +17,13 @@ public class AccountHQL {
     private long id;
 
     @Column(name = "account_type")
-    private String account_type;
+    private String accountType;
 
     @Column(name = "balance")
     private BigDecimal  balance;
 
     @Column(name = "create_date")
-    private String create_date;
+    private LocalDate createDate;
 //
 //    @Column(name = "employee_id")   有个多对一（@manyToOne）立体对平面的关系就不需要再
 //    一一对应的employee_id了，与其相关的方法等也可以删除掉
@@ -32,7 +33,7 @@ public class AccountHQL {
 //
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
-    private EmployeeHQL employeeHQL;
+    private EmployeeHQL employee;
 
 
 
@@ -45,9 +46,9 @@ public class AccountHQL {
         this.id = id;
     }
 
-    public void setAccount_type(String account_type)
+    public void setAccountType(String accountType)
     {
-        this.account_type = account_type;
+        this.accountType = accountType;
     }
 
     public void setBalance(BigDecimal balance)
@@ -55,15 +56,15 @@ public class AccountHQL {
         this.balance = balance;
     }
 
-    public void setCreate_date(String create_date)
+    public void setCreateDate(LocalDate createDate)
     {
-        this.create_date = create_date;
+        this.createDate = createDate;
     }
 
-//    public void setEmployee_id(long employee_id)
-//    {
-//        this.employee_id = employee_id;
-//    }
+    public void setEmployee(EmployeeHQL employee)
+    {
+        this.employee = employee;
+    }
 
 
 
@@ -72,9 +73,9 @@ public class AccountHQL {
         return id;
     }
 
-    public String getAccount_type()
+    public String getAccountType()
     {
-        return account_type;
+        return accountType;
     }
 
     public BigDecimal getBalance()
@@ -82,15 +83,15 @@ public class AccountHQL {
         return balance;
     }
 
-    public String getCreate_date()
+    public LocalDate getCreateDate()
     {
-        return create_date;
+        return createDate;
     }
-//
-//    public long getEmployee_id()
-//    {
-//        return employee_id;
-//    }
+
+    public EmployeeHQL getEmployee()
+    {
+        return employee;
+    }
 
 
 

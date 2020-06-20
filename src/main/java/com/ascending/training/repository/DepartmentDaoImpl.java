@@ -9,10 +9,14 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+@Repository
 public class DepartmentDaoImpl implements DepartmentDao{
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -64,7 +68,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
     }
 
     @Override
-    public List<DepartmentHQL> getDepartments() {
+    public List<DepartmentHQL> getDepartments() {         //为什么from一个对象但是return一个List
         String hql = "From DepartmentHQL";
 
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -88,6 +92,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
     @Override
     public DepartmentHQL getDepartmentEagerBy(Long id) {
         //        select * from departments as dep left join employees as e on a.employee_id=dep.id where dep.id=:Id
+
         String hql = "FROM DepartmentHQL d LEFT JOIN FETCH d.employeeHQLSet where d.id=:Id";
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {

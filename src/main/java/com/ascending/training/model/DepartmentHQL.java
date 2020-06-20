@@ -23,6 +23,7 @@ public class DepartmentHQL {
    @Column(name = "location")
     private String location;
 
+
    @OneToMany(mappedBy = "departmentHQL", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<EmployeeHQL> employeeHQLSet;
 
@@ -61,6 +62,7 @@ public class DepartmentHQL {
 
 
 
+
     public long getId()
     {
         return id;
@@ -93,5 +95,9 @@ public class DepartmentHQL {
         }
         return employeeHQLSet;
     }
+
+
+
+
 
 }

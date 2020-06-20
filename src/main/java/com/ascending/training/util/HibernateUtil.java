@@ -58,7 +58,7 @@ public class HibernateUtil {
                 EntityScanner.scanPackages(modelPackages).addTo(configuration); // 扫描modelPackages中对应的packages中有哪些有annotation
 
 
-                StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
+                StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder(); // 运用builder design pattern
                 ServiceRegistry serviceRegistry = registryBuilder.applySettings(configuration.getProperties()).build();
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             }

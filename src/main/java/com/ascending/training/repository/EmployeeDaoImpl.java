@@ -10,11 +10,12 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Repository
 public class EmployeeDaoImpl implements EmployeeDao{
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -22,8 +23,6 @@ public class EmployeeDaoImpl implements EmployeeDao{
     public EmployeeHQL save(EmployeeHQL employeeHQL) {
         Transaction transaction = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
-
-
         try{
             transaction = session.beginTransaction();
             session.save(employeeHQL);
@@ -65,6 +64,25 @@ public class EmployeeDaoImpl implements EmployeeDao{
     public EmployeeHQL getBy(Long id) {
         return null;
     }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public EmployeeHQL getByDepartment(DepartmentHQL departmentHQL)
+    {
+        String hql = "FROM EmployeeHQL d LEFT JOIN FETCH d.departmentHQL de where de.id=:Id";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Query<EmployeeHQL> query = session.createQuery(hql);
+            query.setParameter("Id",departmentHQL.getId());
+            EmployeeHQL result = query.uniqueResult();
+            session.close();
+            return result;
+        }catch (HibernateException e){
+            logger.error("failure to retrieve data record",e);
+            session.close();
+            return null;
+    }}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean delete(EmployeeHQL employeeHQL) {
@@ -108,8 +126,22 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
     @Override
     public EmployeeHQL getEmployeeEagerBy(Long id) {
-        return null;
+        String hql = "FROM EmployeeHQL d LEFT JOIN FETCH d.accountHQLSet where d.id=:Id";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Query<EmployeeHQL> query = session.createQuery(hql);
+            query.setParameter("Id",id);
+            EmployeeHQL result = query.uniqueResult();
+            session.close();
+            return result;
+        }catch (HibernateException e){
+            logger.error("failure to retrieve data record",e);
+            session.close();
+            return null;
+        }
     }
+
+
 
     @Override
     public EmployeeHQL getEmployeeByName(String deptName) {

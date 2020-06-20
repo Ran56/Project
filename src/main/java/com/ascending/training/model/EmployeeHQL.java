@@ -2,6 +2,8 @@ package com.ascending.training.model;
 
 import javax.persistence.*;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity //domain, model, entity都是表达同一个东西在这里用@Entity
@@ -17,10 +19,10 @@ public class EmployeeHQL {
     private String name;
 
     @Column(name = "first_name")
-    private String first_name;
+    private String firstName;
 
     @Column(name = "last_name")
-    private String last_name;
+    private String lastName;
 
     @Column(name = "email")
     private String email;
@@ -29,7 +31,7 @@ public class EmployeeHQL {
     private String address;
 
     @Column(name = "hired_date")
-    private String hired_date;
+    private LocalDate hiredDate;
 
 //    @Column(name = "department_id")  //与AccountHQL中的同理
 //    private long department_id;
@@ -37,7 +39,7 @@ public class EmployeeHQL {
 //
 //
 //mappedBy = 的是一个AccountHQL中@ManyToOne对应的变量名
-    @OneToMany(mappedBy = "employeeHQL", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<AccountHQL> accountHQLSet;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,14 +57,14 @@ public class EmployeeHQL {
         this.name = name;
     }
 
-    public void setFirst_name(String first_name)
+    public void setFirstName(String firstName)
     {
-        this.first_name = first_name;
+        this.firstName = firstName;
     }
 
-    public void setLast_name(String last_name)
+    public void setLastName(String lastName)
     {
-        this.last_name = last_name;
+        this.lastName = lastName;
     }
 
     public void setEmail(String email)
@@ -75,9 +77,9 @@ public class EmployeeHQL {
         this.address = address;
     }
 
-    public void setHired_date(String hired_date)
+    public void setHiredDate(LocalDate hiredDate)
     {
-        this.hired_date = hired_date;
+        this.hiredDate = hiredDate;
     }
 
     public void setDepartmentHQL (DepartmentHQL departmentHQL) {this.departmentHQL = departmentHQL;}
@@ -100,14 +102,14 @@ public class EmployeeHQL {
         return name;
     }
 
-    public String  getFirst_name()
+    public String  getFirstName()
     {
-        return first_name;
+        return firstName;
     }
 
-    public String getLast_name()
+    public String getLastName()
     {
-        return last_name;
+        return lastName;
     }
 
     public String getEmail()
@@ -120,12 +122,25 @@ public class EmployeeHQL {
         return address;
     }
 
-    public String getHired_date()
+    public LocalDate getHiredDate()
     {
-        return hired_date;
+        return hiredDate;
     }
 
     public DepartmentHQL getDepartmentHQL() { return departmentHQL; }
+
+    public Set<AccountHQL> getAccountHQLSet(){
+        try
+        {
+            int size = accountHQLSet.size();
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+        return accountHQLSet;
+
+    }
 
 //    public long getDepartment_id()
 //    {
