@@ -74,6 +74,8 @@ public class AccountDaoTest {
     {
 
         accountDao.delete(accountHQL);
+        employeeDao.delete(employeeHQL);
+        departmentDao.delete(departmentHQL);
     }
     @Test
     public void getAccountsTest()

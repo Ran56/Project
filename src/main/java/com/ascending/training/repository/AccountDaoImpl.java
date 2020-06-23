@@ -118,7 +118,7 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public AccountHQL getDepartmentAndEmployeesBy(String accountName) {
+    public AccountHQL getAccountsAndEmployeeBy(String accountName) {
         return null;
     }
 
