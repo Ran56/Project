@@ -1,6 +1,6 @@
 package com.ascending.training.repository;
 
-import com.ascending.training.model.DepartmentHQL;
+import com.ascending.training.model.Department;
 import com.ascending.training.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,14 +17,17 @@ import java.util.List;
 
 
 
-@Repository
+@Repository //创建@Bean，加了@Repository后系统会默认该类实例为Bean
 public class DepartmentDaoImpl implements DepartmentDao{
+    @Autowired
+    private SessionFactory sessionFactory;
+//    @Autowired
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public DepartmentHQL save(DepartmentHQL department) {  //dummy implementation 意思就是没有任何实现
+    public Department save(Department department) {  //dummy implementation 意思就是没有任何实现
        Transaction transaction = null;
-       Session session = HibernateUtil.getSessionFactory().openSession();
+       Session session = sessionFactory.openSession();
 
        try{
            transaction = session.beginTransaction();
@@ -35,7 +39,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
        catch(Exception e)
        {
            if(transaction != null) transaction.rollback();
-          logger.error("failure to insert record",e);
+           logger.error("failure to insert record",e);
            session.close();
            return null;
        }
@@ -43,15 +47,15 @@ public class DepartmentDaoImpl implements DepartmentDao{
     }
 
     @Override
-    public boolean delete(DepartmentHQL dep) {
-        String hql = "DELETE DepartmentHQL as dep where dep.id = :Id";
+    public boolean delete(Department dep) {
+        String hql = "DELETE Department as dep where dep.id = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try
         {
             transaction = session.beginTransaction();
-            Query<DepartmentHQL> query = session.createQuery(hql);
+            Query<Department> query = session.createQuery(hql);
             query.setParameter("Id", dep.getId());
             deletedCount = query.executeUpdate();
             transaction.commit();
@@ -68,12 +72,10 @@ public class DepartmentDaoImpl implements DepartmentDao{
     }
 
     @Override
-    public List<DepartmentHQL> getDepartments() {         //为什么from一个对象但是return一个List
-        String hql = "From DepartmentHQL";
-
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    public List<Department> getDepartments() {         //为什么from一个对象但是return一个List
+        String hql = "From Department";
         Session s = sessionFactory.openSession();
-        List<DepartmentHQL> result = new ArrayList<>();
+        List<Department> result = new ArrayList<>();
 
        try {
            Query query = s.createQuery(hql);
@@ -90,15 +92,15 @@ public class DepartmentDaoImpl implements DepartmentDao{
 
 
     @Override
-    public DepartmentHQL getDepartmentEagerBy(Long id) {
+    public Department getDepartmentEagerBy(Long id) {
         //        select * from departments as dep left join employees as e on a.employee_id=dep.id where dep.id=:Id
 
-        String hql = "FROM DepartmentHQL d LEFT JOIN FETCH d.employeeHQLSet where d.id=:Id";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        String hql = "FROM Department d LEFT JOIN FETCH d.employeeSet where d.id=:Id";
+        Session session = sessionFactory.openSession();
         try {
-            Query<DepartmentHQL> query = session.createQuery(hql);
+            Query<Department> query = session.createQuery(hql);
             query.setParameter("Id",id);
-            DepartmentHQL result = query.uniqueResult();
+            Department result = query.uniqueResult();
             session.close();
             return result;
         }catch (HibernateException e){
@@ -113,13 +115,43 @@ public class DepartmentDaoImpl implements DepartmentDao{
 
 
     @Override
-    public DepartmentHQL getBy(Long id) {
-        return null;
+    public Department getBy(Long id) {
+//join fetch d.employeeSet
+        String hql = "FROM Department d where d.id=:Id";
+        Session session = sessionFactory.openSession();
+        try {
+            Query<Department> query = session.createQuery(hql);
+            query.setParameter("Id",id);
+            Department result = query.uniqueResult();
+            session.close();
+            return result;
+        }catch (HibernateException e){
+            logger.error("failure to retrieve data record",e);
+            session.close();
+            return null;
+        }
+
     }
 
     @Override
-    public DepartmentHQL update(DepartmentHQL department) {
-        return null;
+    public Department update(Department department) {
+        Transaction transaction = null;
+        Session session = sessionFactory.openSession();
+
+        try{
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(department);
+            transaction.commit();
+            session.close();
+            return department;
+        }
+        catch(Exception e)
+        {
+            if(transaction != null) transaction.rollback();
+            logger.error("failure to insert record",e);
+            session.close();
+            return null;
+        }
     }
 
     @Override
@@ -128,18 +160,18 @@ public class DepartmentDaoImpl implements DepartmentDao{
     }
 
     @Override
-    public List<DepartmentHQL> getDepartmentsEager() {
+    public List<Department> getDepartmentsEager() {
         return null;
     }
 
 
     @Override
-    public DepartmentHQL getDepartmentByName(String deptName) {
+    public Department getDepartmentByName(String deptName) {
         return null;
     }
 
     @Override
-    public DepartmentHQL getDepartmentAndEmployeesBy(String deptName) {
+    public Department getDepartmentAndEmployeesBy(String deptName) {
         return null;
     }
 

@@ -1,7 +1,7 @@
 package com.ascending.training.repository;
 
 import com.ascending.training.jdbc.DepartmentDAO;
-import com.ascending.training.model.Department;
+import com.ascending.training.jdbc.DepartmentJDBC;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +13,12 @@ import static org.junit.Assert.*;
 public class DepartmentDaoTestJDBC {
     private static Logger logger = LoggerFactory.getLogger(DepartmentDaoTestJDBC.class);
     private DepartmentDAO departmentJDBCDAO;
-    private  Department department;
+    private DepartmentJDBC department;
     @Before
     public void setUP()
     {
          departmentJDBCDAO = new DepartmentDAO();
-         department = new Department();
+         department = new DepartmentJDBC();
     }
     @After
     public void tearDown()

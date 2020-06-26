@@ -1,15 +1,13 @@
 package com.ascending.training.repository;
 
 import com.ascending.training.ApplicationBootstrap;
-import com.ascending.training.model.DepartmentHQL;
-import com.ascending.training.model.EmployeeHQL;
+import com.ascending.training.model.Department;
+import com.ascending.training.model.Employee;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,9 +21,9 @@ import java.util.List;
 
 public class DepartmentDaoTest1 {
 
-    private DepartmentHQL d1;
-    private EmployeeHQL e1;
-    private EmployeeHQL e2;
+    private Department d1;
+    private Employee e1;
+    private Employee e2;
 
     @Autowired
     private DepartmentDao departmentDao;
@@ -36,7 +34,7 @@ public class DepartmentDaoTest1 {
 @Before
     public void setUp()
 {
-    d1 = new DepartmentHQL();
+    d1 = new Department();
 //    departmentDao = new DepartmentDaoImpl();
 
     d1.setName("AMZA");
@@ -45,17 +43,17 @@ public class DepartmentDaoTest1 {
     d1 = departmentDao.save(d1);
 
 //    employeeDao = new EmployeeDaoImpl();
-    e1 = new EmployeeHQL();
+    e1 = new Employee();
     e1.setName("Zhangr");
     e1.setAddress("us");
-    e1.setDepartmentHQL(d1);//
+    e1.setDepartment(d1);//
     e1.setHiredDate(LocalDate.now());
     employeeDao.save(e1);
 
-    e2 = new EmployeeHQL();
+    e2 = new Employee();
     e2.setName("LiY");
     e2.setAddress("us");
-    e2.setDepartmentHQL(d1);//
+    e2.setDepartment(d1);//
     employeeDao.save(e2);
 
 
@@ -73,19 +71,19 @@ public class DepartmentDaoTest1 {
 @Test
     public void getDepartmentsTest()
 {
-    List<DepartmentHQL> departmentHQLS = departmentDao.getDepartments();
+    List<Department> departments = departmentDao.getDepartments();
     int expected =5;
-    Assert.assertEquals(expected,departmentHQLS.size());
+    Assert.assertEquals(expected, departments.size());
 
 }
 
 @Test
     public void getDepartmentEagerByTest()
 {
-    DepartmentHQL departmentHQL = departmentDao.getDepartmentEagerBy(d1.getId());
-    Assert.assertNotNull(departmentHQL);
-    Assert.assertEquals(departmentHQL.getName(),d1.getName());
-    Assert.assertTrue(departmentHQL.getEmployeeHQLSet().size()>0);
+    Department department = departmentDao.getDepartmentEagerBy(d1.getId());
+    Assert.assertNotNull(department);
+    Assert.assertEquals(department.getName(),d1.getName());
+    Assert.assertTrue(department.getEmployeeSet().size()>0);
         //怎么存过去到set里？？？？？
 
 }

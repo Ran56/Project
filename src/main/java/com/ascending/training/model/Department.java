@@ -1,15 +1,42 @@
 package com.ascending.training.model;
 
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Set;
+//persistent object template:
+
+@Entity //domain, model, entity都是表达同一个东西在这里用@Entity
+@Table (name = "departments")
 public class Department {
+   @Id  //标示这是primary key
+   @GeneratedValue(strategy = GenerationType.IDENTITY)  //标示这是Bigserial 自动加1
+   @Column(name = "id")
     private long id;
+
+   @Column(name = "name")
     private String name;
+
+   @Column(name = "description")
     private String  description;
+
+   @Column(name = "location")
     private String location;
+
+
+   @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+   @JsonIgnore
+    private Set<Employee> employeeSet;
+
+
+
 
     public Department(){ }
 
 
-     public void setId(long id)
+    public void setId(long id)
     {
        this.id = id;
     }
@@ -28,6 +55,16 @@ public class Department {
     {
         this.location = location;
     }
+
+    public void setEmployeeSet (Employee employee)
+    {
+        employeeSet.add(employee);
+    }
+
+
+
+
+
 
     public long getId()
     {
@@ -48,6 +85,21 @@ public class Department {
     {
         return location;
     }
+
+    public Set<Employee> getEmployeeSet ()
+    {
+        try
+        {
+            int size = employeeSet.size();
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+        return employeeSet;
+    }
+
+
 
 
 

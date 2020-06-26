@@ -1,9 +1,9 @@
 package com.ascending.training.repository;
 
 import com.ascending.training.ApplicationBootstrap;
-import com.ascending.training.model.AccountHQL;
-import com.ascending.training.model.DepartmentHQL;
-import com.ascending.training.model.EmployeeHQL;
+import com.ascending.training.model.Account;
+import com.ascending.training.model.Department;
+import com.ascending.training.model.Employee;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,15 +28,15 @@ public class AccountDaoTest {
     @Autowired
     private AccountDao accountDao;
 
-    private AccountHQL accountHQL;
+    private Account account;
 
     @Autowired
     private EmployeeDao employeeDao;
-    private EmployeeHQL employeeHQL;
+    private Employee employee;
 
     @Autowired
     private DepartmentDao departmentDao;
-    private DepartmentHQL departmentHQL;
+    private Department department;
 
 
 
@@ -44,26 +44,26 @@ public class AccountDaoTest {
     public void setUp()
     {
 
-        departmentHQL = new DepartmentHQL();
-        departmentHQL.setName("AMZA");
-        departmentHQL.setDescription("this is AMZA");
-        departmentHQL.setLocation("Arlington");
-        departmentHQL = departmentDao.save(departmentHQL);
+        department = new Department();
+        department.setName("AMZA");
+        department.setDescription("this is AMZA");
+        department.setLocation("Arlington");
+        department = departmentDao.save(department);
 
-        employeeHQL = new EmployeeHQL();
-        employeeHQL.setName("Zhangr");
-        employeeHQL.setAddress("us");
-        employeeHQL.setDepartmentHQL(departmentHQL);//
-        employeeHQL.setHiredDate(LocalDate.now());
-        employeeDao.save(employeeHQL);
+        employee = new Employee();
+        employee.setName("Zhangr");
+        employee.setAddress("us");
+        employee.setDepartment(department);//
+        employee.setHiredDate(LocalDate.now());
+        employeeDao.save(employee);
 
 
-        accountHQL = new AccountHQL();
-        accountHQL.setAccountType("Checking account");
-        accountHQL.setBalance(BigDecimal.valueOf(2080.29));
-        accountHQL.setCreateDate(LocalDate.now());
-        accountHQL.setEmployee(employeeHQL);
-        accountDao.save(accountHQL);
+        account = new Account();
+        account.setAccountType("Checking account");
+        account.setBalance(BigDecimal.valueOf(2080.29));
+        account.setCreateDate(LocalDate.now());
+        account.setEmployee(employee);
+        accountDao.save(account);
 
 
     }
@@ -73,18 +73,18 @@ public class AccountDaoTest {
     public void tearDown()
     {
 
-        accountDao.delete(accountHQL);
-        employeeDao.delete(employeeHQL);
-        departmentDao.delete(departmentHQL);
+        accountDao.delete(account);
+        employeeDao.delete(employee);
+        departmentDao.delete(department);
     }
     @Test
     public void getAccountsTest()
     {
-        List<AccountHQL> accountHQLList = new ArrayList<>();
-        accountHQLList = accountDao.getAccountHQL();
+        List<Account> accountList = new ArrayList<>();
+        accountList = accountDao.getAccountHQL();
         int expected = 1;
 
-        Assert.assertEquals(expected,accountHQLList.size());
+        Assert.assertEquals(expected, accountList.size());
 
 
     }

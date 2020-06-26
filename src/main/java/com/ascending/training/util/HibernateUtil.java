@@ -9,18 +9,20 @@ import org.hibernate.cfg.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hibernate.service.ServiceRegistry;
+import org.springframework.stereotype.Repository;
+
 import java.util.*;
 
 
 import java.util.Properties;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory; //singleton pattern
+    private  SessionFactory sessionFactory; //singleton pattern
 
-    static private Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
+    private Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
 
 
-    public static SessionFactory getSessionFactory()
+    public SessionFactory getSessionFactory()
     {
         if(sessionFactory == null)
         {
@@ -74,17 +76,17 @@ public class HibernateUtil {
     }
 
 
-    public static void main(String[] args)
-    {
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        SessionFactory sf2 = HibernateUtil.getSessionFactory();
-        logger.info("success generate sf" + sf.hashCode());
-        logger.info("success generate sf" + sf2.hashCode());
-        Session s = sf.openSession();
-        s.close();
-        Session s1 = sf.openSession();// Factory design pattern 用sf可以创建出两个session实例，此处是该类第二个design pattern
-        s1.close();
-    }
+//    public static void main(String[] args)
+//    {
+//        SessionFactory sf = HibernateUtil.getSessionFactory();
+//        SessionFactory sf2 = HibernateUtil.getSessionFactory();
+//        logger.info("success generate sf" + sf.hashCode());
+//        logger.info("success generate sf" + sf2.hashCode());
+//        Session s = sf.openSession();
+//        s.close();
+//        Session s1 = sf.openSession();// Factory design pattern 用sf可以创建出两个session实例，此处是该类第二个design pattern
+//        s1.close();
+//    }
 
 
 

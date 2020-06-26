@@ -1,7 +1,7 @@
 package com.ascending.training.service;
 
 
-import com.ascending.training.model.DepartmentHQL;
+import com.ascending.training.model.Department;
 import com.ascending.training.repository.DepartmentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,13 @@ public class DepartmentService {
     private DepartmentDao departmentDao;
 
 
-    public DepartmentHQL save(DepartmentHQL department)
+    public Department save(Department department)
     {
+        department.setName("HR3");
         return departmentDao.save(department);
     }
 
-    public DepartmentHQL update(DepartmentHQL department)
+    public Department update(Department department)
     {
         return departmentDao.update(department);
     }
@@ -29,23 +30,22 @@ public class DepartmentService {
         return departmentDao.delete(deptName);
     }
 
-    public DepartmentHQL getBy(Long id)
+    public Department getBy(Long id)
     {
         return departmentDao.getBy(id);
     }
 
+    public List<Department> getDepartments(){ return departmentDao.getDepartments(); }
 
-    public List<DepartmentHQL> getDepartments(){ return departmentDao.getDepartments(); }
+    public boolean delete(Department dep){ return departmentDao.delete(dep); }
 
-    public boolean delete(DepartmentHQL dep){ return departmentDao.delete(dep); }
+    public List<Department> getDepartmentsEager(){ return departmentDao.getDepartmentsEager(); }
 
-    public List<DepartmentHQL> getDepartmentsEager(){ return departmentDao.getDepartmentsEager(); }
+    public Department getDepartmentEagerBy(Long id) {return departmentDao.getDepartmentEagerBy(id); }
 
-    public DepartmentHQL getDepartmentEagerBy(Long id) {return departmentDao.getDepartmentEagerBy(id); }
+    public Department getDepartmentByName(String deptName) {return departmentDao.getDepartmentByName(deptName); }
 
-    public DepartmentHQL getDepartmentByName(String deptName) {return departmentDao.getDepartmentByName(deptName); }
-
-    public DepartmentHQL getDepartmentAndEmployeesBy(String deptName){return departmentDao.getDepartmentAndEmployeesBy(deptName);}
+    public Department getDepartmentAndEmployeesBy(String deptName){return departmentDao.getDepartmentAndEmployeesBy(deptName);}
 
     public List<Object[]> getDepartmentAndEmployeesAndAccounts(String deptName){return departmentDao.getDepartmentAndEmployeesAndAccounts(deptName); }
 

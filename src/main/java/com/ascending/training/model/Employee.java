@@ -1,14 +1,15 @@
 package com.ascending.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Entity //domain, model, entity都是表达同一个东西在这里用@Entity
 @Table(name = "employees")
-public class EmployeeHQL {
+public class Employee {
 
     @Id  //标示这是primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //标示这是Bigserial 自动加1
@@ -40,11 +41,12 @@ public class EmployeeHQL {
 //
 //mappedBy = 的是一个AccountHQL中@ManyToOne对应的变量名
     @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private Set<AccountHQL> accountHQLSet;
+    private Set<Account> accountSet;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
-    private DepartmentHQL departmentHQL;
+    //@JsonIgnore
+    private Department department;
 
 
     public void setId(long id)
@@ -82,7 +84,7 @@ public class EmployeeHQL {
         this.hiredDate = hiredDate;
     }
 
-    public void setDepartmentHQL (DepartmentHQL departmentHQL) {this.departmentHQL = departmentHQL;}
+    public void setDepartment (Department department) {this.department = department;}
 
 
 
@@ -127,18 +129,18 @@ public class EmployeeHQL {
         return hiredDate;
     }
 
-    public DepartmentHQL getDepartmentHQL() { return departmentHQL; }
+    public Department getDepartment() { return department; }
 
-    public Set<AccountHQL> getAccountHQLSet(){
+    public Set<Account> getAccountSet(){
         try
         {
-            int size = accountHQLSet.size();
+            int size = accountSet.size();
         }
         catch (Exception e)
         {
             return null;
         }
-        return accountHQLSet;
+        return accountSet;
 
     }
 

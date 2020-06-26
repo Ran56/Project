@@ -1,29 +1,29 @@
 package com.ascending.training.repository;
 
-import com.ascending.training.model.DepartmentHQL;
-import com.ascending.training.model.EmployeeHQL;
+import com.ascending.training.model.Department;
+import com.ascending.training.model.Employee;
 
 import java.util.List;
 
 public interface EmployeeDao {
 
-    EmployeeHQL save(EmployeeHQL employeeHQL);
-    List<EmployeeHQL> getEmployees();
-    EmployeeHQL getBy(Long id);
-    boolean delete(EmployeeHQL employeeHQL);
+    Employee save(Employee employee);
+    List<Employee> getEmployees();
+    Employee getBy(Long id);
+    boolean delete(Employee employee);
 
-    EmployeeHQL update(EmployeeHQL employeeHQL);
+    Employee update(Employee employee);
     boolean delete(String employeeName);
-    List<EmployeeHQL> getEmployeesEager();
-    EmployeeHQL getEmployeeEagerBy(Long id);
-    EmployeeHQL getEmployeeByName(String employeeName);
+    List<Employee> getEmployeesEager();
+    Employee getEmployeeEagerBy(Long id);
+    Employee getEmployeeByName(String employeeName);
 
 
 
 
-    EmployeeHQL getDepartmentAndEmployeesBy(String employeeName);
+    Employee getDepartmentAndEmployeesBy(String employeeName);
     List<Object[]> getDepartmentAndEmployeesAndAccounts(String employeeName);
 
-    EmployeeHQL getByDepartment(DepartmentHQL departmentHQL);
+    Employee getByDepartment(Department department);
 
 }

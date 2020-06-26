@@ -1,9 +1,9 @@
 package com.ascending.training.repository;
 
 import com.ascending.training.ApplicationBootstrap;
-import com.ascending.training.model.AccountHQL;
-import com.ascending.training.model.DepartmentHQL;
-import com.ascending.training.model.EmployeeHQL;
+import com.ascending.training.model.Account;
+import com.ascending.training.model.Department;
+import com.ascending.training.model.Employee;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,8 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= ApplicationBootstrap.class)
@@ -25,9 +23,9 @@ public class EmployeeDaoTest {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private EmployeeDao employeeDao;
-    private EmployeeHQL employeeHQL;
-    private AccountHQL accountHQL1;
-    private AccountHQL accountHQL2;
+    private Employee employee;
+    private Account account1;
+    private Account account2;
 
     @Autowired
     private AccountDao accountDao;
@@ -35,46 +33,46 @@ public class EmployeeDaoTest {
     @Autowired
     private DepartmentDao departmentDao;
 
-    private DepartmentHQL departmentHQL;
+    private Department department;
 
 
     @Before
     public void setUp()
     {
 
-        departmentHQL = new DepartmentHQL();
-        departmentHQL.setName("AMZA");
-        departmentHQL.setDescription("this is AMZA");
-        departmentHQL.setLocation("Arlington");
-        departmentHQL = departmentDao.save(departmentHQL);
+        department = new Department();
+        department.setName("AMZA");
+        department.setDescription("this is AMZA");
+        department.setLocation("Arlington");
+        department = departmentDao.save(department);
 
 
-        employeeHQL = new EmployeeHQL();
-        employeeHQL.setName("Jan Jia");
-        employeeHQL.setDepartmentHQL(departmentHQL);
-        employeeDao.save(employeeHQL);
+        employee = new Employee();
+        employee.setName("Jan Jia");
+        employee.setDepartment(department);
+        employeeDao.save(employee);
 
-        accountHQL1 = new AccountHQL();
-        accountHQL1.setAccountType("Debit");
-        accountHQL1.setBalance(BigDecimal.valueOf(1000));
-        accountHQL1.setEmployee(employeeHQL);
-        accountDao.save(accountHQL1);
+        account1 = new Account();
+        account1.setAccountType("Debit");
+        account1.setBalance(BigDecimal.valueOf(1000));
+        account1.setEmployee(employee);
+        accountDao.save(account1);
 
-        accountHQL2 = new AccountHQL();
-        accountHQL2.setAccountType("Debit");
-        accountHQL2.setBalance(BigDecimal.valueOf(1670));
-        accountHQL2.setEmployee(employeeHQL);
-        accountDao.save(accountHQL2);
+        account2 = new Account();
+        account2.setAccountType("Debit");
+        account2.setBalance(BigDecimal.valueOf(1670));
+        account2.setEmployee(employee);
+        accountDao.save(account2);
 
     }
     @After
     public void tearDown()
     {
 
-        accountDao.delete(accountHQL1);
-        accountDao.delete(accountHQL2);
-        employeeDao.delete(employeeHQL);
-        departmentDao.delete(departmentHQL);
+        accountDao.delete(account1);
+        accountDao.delete(account2);
+        employeeDao.delete(employee);
+        departmentDao.delete(department);
 
     }
     @Test
@@ -87,10 +85,10 @@ public class EmployeeDaoTest {
     @Test
     public void getEmployeeEagerByTest()
     {
-        EmployeeHQL employeeHQLa =  employeeDao.getEmployeeEagerBy(employeeHQL.getId());
+        Employee employeeHQLa =  employeeDao.getEmployeeEagerBy(employee.getId());
         Assert.assertNotNull(employeeHQLa);
-        Assert.assertEquals(employeeHQLa.getName(),employeeHQL.getName());
-        Assert.assertTrue(employeeHQLa.getAccountHQLSet().size() > 0);
+        Assert.assertEquals(employeeHQLa.getName(), employee.getName());
+        Assert.assertTrue(employeeHQLa.getAccountSet().size() > 0);
 
 
     }
@@ -101,9 +99,9 @@ public class EmployeeDaoTest {
     public void getEmployeeByDepartmentTest()
     {
 
-        EmployeeHQL employeeHQL = employeeDao.getByDepartment(departmentHQL);
+        Employee employee = employeeDao.getByDepartment(department);
         //int expected =1;
-        Assert.assertNotNull(employeeHQL);
+        Assert.assertNotNull(employee);
 
     }
 

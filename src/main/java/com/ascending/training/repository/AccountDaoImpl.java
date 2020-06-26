@@ -1,7 +1,6 @@
 package com.ascending.training.repository;
 
-import com.ascending.training.model.AccountHQL;
-import com.ascending.training.model.DepartmentHQL;
+import com.ascending.training.model.Account;
 import com.ascending.training.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -10,27 +9,30 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+@Repository //创建@Bean，加了@Repository后系统会默认该类实例为Bean
 public class AccountDaoImpl implements AccountDao{
+
+    @Autowired private SessionFactory sessionFactory;
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
-    public AccountHQL save(AccountHQL accountHQL) {
+    public Account save(Account account) {
         Transaction transaction = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
 //       session.save(department);
 //        return department;
 
         try{
             transaction = session.beginTransaction();
-            session.save(accountHQL);
+            session.save(account);
             transaction.commit();
             session.close();
-            return accountHQL;
+            return account;
         }
         catch(Exception e)
         {
@@ -42,12 +44,10 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public List<AccountHQL> getAccountHQL() {
-        String hql = "From AccountHQL";
-
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    public List<Account> getAccountHQL() {
+        String hql = "From Account";
         Session s = sessionFactory.openSession();
-        List<AccountHQL> result = new ArrayList<>();
+        List<Account> result = new ArrayList<>();
 
         try {
             Query query = s.createQuery(hql);
@@ -63,21 +63,21 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public AccountHQL getBy(Long id) {
+    public Account getBy(Long id) {
         return null;
     }
 
     @Override
-    public boolean delete(AccountHQL accountHQL) {
-        String hql = "DELETE AccountHQL as acc where acc.id = :Id";
+    public boolean delete(Account account) {
+        String hql = "DELETE Account as acc where acc.id = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try
         {
             transaction = session.beginTransaction();
-            Query<AccountHQL> query = session.createQuery(hql);
-            query.setParameter("Id", accountHQL.getId());
+            Query<Account> query = session.createQuery(hql);
+            query.setParameter("Id", account.getId());
             deletedCount = query.executeUpdate();
             transaction.commit();
             session.close();
@@ -93,7 +93,7 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public AccountHQL update(AccountHQL accountHQL) {
+    public Account update(Account account) {
         return null;
     }
 
@@ -103,22 +103,22 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public List<AccountHQL> getAccountsEager() {
+    public List<Account> getAccountsEager() {
         return null;
     }
 
     @Override
-    public AccountHQL getAccountEagerBy(Long id) {
+    public Account getAccountEagerBy(Long id) {
         return null;
     }
 
     @Override
-    public AccountHQL getAccountByName(String accountName) {
+    public Account getAccountByName(String accountName) {
         return null;
     }
 
     @Override
-    public AccountHQL getAccountsAndEmployeeBy(String accountName) {
+    public Account getAccountsAndEmployeeBy(String accountName) {
         return null;
     }
 

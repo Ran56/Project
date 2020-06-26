@@ -1,7 +1,7 @@
 package com.ascending.training.repository;
 
-import com.ascending.training.model.DepartmentHQL;
-import com.ascending.training.model.EmployeeHQL;
+import com.ascending.training.model.Department;
+import com.ascending.training.model.Employee;
 import com.ascending.training.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -10,25 +10,30 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+@Repository//创建@Bean，加了@Repository后系统会默认该类实例为Bean
+//找到有annotation @Repository的类后会自动生成 EmployeeDao employeeDao = new EmployeeDaoImpl();
 public class EmployeeDaoImpl implements EmployeeDao{
+
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired private SessionFactory sessionFactory;
+
     @Override
-    public EmployeeHQL save(EmployeeHQL employeeHQL) {
+    public Employee save(Employee employee) {
         Transaction transaction = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try{
             transaction = session.beginTransaction();
-            session.save(employeeHQL);
+            session.save(employee);
             transaction.commit();
             session.close();
-            return employeeHQL;
+            return employee;
         }
         catch(Exception e)
         {
@@ -40,12 +45,10 @@ public class EmployeeDaoImpl implements EmployeeDao{
     }
 
     @Override
-    public List<EmployeeHQL> getEmployees() {
-        String hql = "From EmployeeHQL";
-
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    public List<Employee> getEmployees() {
+        String hql = "From Employee";
         Session s = sessionFactory.openSession();
-        List<EmployeeHQL> result = new ArrayList<>();
+        List<Employee> result = new ArrayList<>();
 
         try {
             Query query = s.createQuery(hql);
@@ -61,20 +64,20 @@ public class EmployeeDaoImpl implements EmployeeDao{
     }
 
     @Override
-    public EmployeeHQL getBy(Long id) {
+    public Employee getBy(Long id) {
         return null;
     }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public EmployeeHQL getByDepartment(DepartmentHQL departmentHQL)
+    public Employee getByDepartment(Department department)
     {
-        String hql = "FROM EmployeeHQL d LEFT JOIN FETCH d.departmentHQL de where de.id=:Id";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        String hql = "FROM Employee d LEFT JOIN FETCH d.department de where de.id=:Id";
+        Session session = sessionFactory.openSession();
         try {
-            Query<EmployeeHQL> query = session.createQuery(hql);
-            query.setParameter("Id",departmentHQL.getId());
-            EmployeeHQL result = query.uniqueResult();
+            Query<Employee> query = session.createQuery(hql);
+            query.setParameter("Id", department.getId());
+            Employee result = query.uniqueResult();
             session.close();
             return result;
         }catch (HibernateException e){
@@ -85,16 +88,16 @@ public class EmployeeDaoImpl implements EmployeeDao{
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean delete(EmployeeHQL employeeHQL) {
-        String hql = "DELETE EmployeeHQL as emp where emp.id = :Id";
+    public boolean delete(Employee employee) {
+        String hql = "DELETE Employee as emp where emp.id = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try
         {
             transaction = session.beginTransaction();
-            Query<EmployeeHQL> query = session.createQuery(hql);
-            query.setParameter("Id", employeeHQL.getId());
+            Query<Employee> query = session.createQuery(hql);
+            query.setParameter("Id", employee.getId());
             deletedCount = query.executeUpdate();
             transaction.commit();
             session.close();
@@ -110,7 +113,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
     }
 
     @Override
-    public EmployeeHQL update(EmployeeHQL employee) {
+    public Employee update(Employee employee) {
         return null;
     }
 
@@ -120,18 +123,18 @@ public class EmployeeDaoImpl implements EmployeeDao{
     }
 
     @Override
-    public List<EmployeeHQL> getEmployeesEager() {
+    public List<Employee> getEmployeesEager() {
         return null;
     }
 
     @Override
-    public EmployeeHQL getEmployeeEagerBy(Long id) {
-        String hql = "FROM EmployeeHQL d LEFT JOIN FETCH d.accountHQLSet where d.id=:Id";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+    public Employee getEmployeeEagerBy(Long id) {
+        String hql = "FROM Employee d LEFT JOIN FETCH d.accountSet where d.id=:Id";
+        Session session = sessionFactory.openSession();
         try {
-            Query<EmployeeHQL> query = session.createQuery(hql);
+            Query<Employee> query = session.createQuery(hql);
             query.setParameter("Id",id);
-            EmployeeHQL result = query.uniqueResult();
+            Employee result = query.uniqueResult();
             session.close();
             return result;
         }catch (HibernateException e){
@@ -144,12 +147,12 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
 
     @Override
-    public EmployeeHQL getEmployeeByName(String deptName) {
+    public Employee getEmployeeByName(String deptName) {
         return null;
     }
 
     @Override
-    public EmployeeHQL getDepartmentAndEmployeesBy(String deptName) {
+    public Employee getDepartmentAndEmployeesBy(String deptName) {
         return null;
     }
 

@@ -1,5 +1,7 @@
 package com.ascending.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,7 +9,7 @@ import java.time.LocalDate;
 
 @Entity //domain, model, entity都是表达同一个东西在这里用@Entity
 @Table(name = "accounts")
-public class AccountHQL {
+public class Account {
 
 
 
@@ -33,7 +35,8 @@ public class AccountHQL {
 //
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
-    private EmployeeHQL employee;
+    @JsonIgnore
+    private Employee employee;
 
 
 
@@ -61,7 +64,7 @@ public class AccountHQL {
         this.createDate = createDate;
     }
 
-    public void setEmployee(EmployeeHQL employee)
+    public void setEmployee(Employee employee)
     {
         this.employee = employee;
     }
@@ -88,7 +91,7 @@ public class AccountHQL {
         return createDate;
     }
 
-    public EmployeeHQL getEmployee()
+    public Employee getEmployee()
     {
         return employee;
     }

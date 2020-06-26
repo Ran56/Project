@@ -1,5 +1,4 @@
 package com.ascending.training.jdbc;
-import com.ascending.training.model.Department;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 public class DepartmentDAO {
 // CRUD
-    List<Department> departments = new ArrayList();
+    List<DepartmentJDBC> departments = new ArrayList();
     static final String DBURL ="jdbc:postgresql://localhost:5432/dealer";
     static final String USER = "admin";
     static final String PASS = "password";
     private Logger logger = LoggerFactory.getLogger(getClass());
 
 
-    public int save (Department department) {
+    public int save (DepartmentJDBC department) {
         Connection conn = null;
       //  Statement stmt = null;
 
@@ -84,7 +83,7 @@ public class DepartmentDAO {
         return r;
     }
 
-    public int update(String oldName, Department department){
+    public int update(String oldName, DepartmentJDBC department){
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -117,7 +116,7 @@ public class DepartmentDAO {
         return r;
     }
 
-    public List<Department> getDepartments(){
+    public List<DepartmentJDBC> getDepartments(){
 
         Connection conn = null;
         Statement stmt = null;
@@ -142,7 +141,7 @@ public class DepartmentDAO {
                 String description = rs.getString("description");
                 String location = rs.getString("location");
                 //Fill the object
-                Department department = new Department();
+                DepartmentJDBC department = new DepartmentJDBC();
                 department.setId(id);
                 department.setName(name);
                 department.setDescription(description);
