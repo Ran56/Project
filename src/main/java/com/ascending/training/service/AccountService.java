@@ -14,7 +14,7 @@ public class AccountService {
 
     public Account save(Account account){ return accountDao.save(account); }
 
-    public List<Account> getAccountHQL(){return accountDao.getAccountHQL(); }
+    public List<Account> getAccounts(){return accountDao.getAccounts(); }
 
     public Account getBy(Long id){return accountDao.getBy(id); }
 

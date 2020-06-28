@@ -41,6 +41,7 @@ public class Employee {
 //
 //mappedBy = 的是一个AccountHQL中@ManyToOne对应的变量名
     @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    //@JsonIgnore
     private Set<Account> accountSet;
 
     @ManyToOne(fetch = FetchType.LAZY)

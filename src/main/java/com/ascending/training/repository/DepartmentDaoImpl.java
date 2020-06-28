@@ -72,7 +72,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
     }
 
     @Override
-    public List<Department> getDepartments() {         //为什么from一个对象但是return一个List
+    public List<Department> getDepartments() {
         String hql = "From Department";
         Session s = sessionFactory.openSession();
         List<Department> result = new ArrayList<>();
@@ -137,10 +137,9 @@ public class DepartmentDaoImpl implements DepartmentDao{
     public Department update(Department department) {
         Transaction transaction = null;
         Session session = sessionFactory.openSession();
-
         try{
             transaction = session.beginTransaction();
-            session.saveOrUpdate(department);
+            session.update(department);
             transaction.commit();
             session.close();
             return department;
@@ -167,7 +166,19 @@ public class DepartmentDaoImpl implements DepartmentDao{
 
     @Override
     public Department getDepartmentByName(String deptName) {
-        return null;
+        String hql = "From Department d where d.name =:deptName";
+        Session session = sessionFactory.openSession();
+        try {
+            Query<Department> query = session.createQuery(hql);
+            query.setParameter("deptName",deptName);
+            Department result = query.uniqueResult();
+            session.close();
+            return result;
+        }catch (HibernateException e){
+            logger.error("failure to retrieve data record",e);
+            session.close();
+            return null;
+        }
     }
 
     @Override

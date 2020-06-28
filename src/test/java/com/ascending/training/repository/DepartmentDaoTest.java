@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -19,8 +20,9 @@ import static org.junit.Assert.assertEquals;
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(classes= ApplicationBootstrap.class)
 
-public class DepartmentDaoTest {
+public class DepartmentDaoTest {//创建完HibernateConfig后不能在此进行测试会产生NullPointerException，需要在有DI的test进行测试
     private Logger logger = LoggerFactory.getLogger(getClass());
+
     private DepartmentDao departmentDao;
     private Department department;
 
@@ -33,7 +35,6 @@ public class DepartmentDaoTest {
        department.setDescription("technological company");
        department.setLocation("addddd");
        departmentDao.save(department);
-
 
    }
     @After

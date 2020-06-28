@@ -11,6 +11,11 @@ import java.util.Set;
 @Entity //domain, model, entity都是表达同一个东西在这里用@Entity
 @Table (name = "departments")
 public class Department {
+
+//    public static class ExtendView extends BasicView{}
+//    public static class BasicView{}
+//
+
    @Id  //标示这是primary key
    @GeneratedValue(strategy = GenerationType.IDENTITY)  //标示这是Bigserial 自动加1
    @Column(name = "id")

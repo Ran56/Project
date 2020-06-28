@@ -81,7 +81,7 @@ public class AccountDaoTest {
     public void getAccountsTest()
     {
         List<Account> accountList = new ArrayList<>();
-        accountList = accountDao.getAccountHQL();
+        accountList = accountDao.getAccounts();
         int expected = 1;
 
         Assert.assertEquals(expected, accountList.size());

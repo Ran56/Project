@@ -56,7 +56,7 @@ public class EmployeeService {
 
 
 
-    public Employee getByDepartment(Department department){return employeeDao.getByDepartment(department); }
+    public List<Employee> getByDepartment(Department department){return employeeDao.getByDepartment(department); }
 
 
 

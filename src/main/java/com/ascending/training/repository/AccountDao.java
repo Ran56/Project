@@ -7,7 +7,7 @@ import java.util.List;
 public interface AccountDao {
 
     Account save(Account account);
-    List<Account> getAccountHQL();
+    List<Account> getAccounts();
     Account getBy(Long id);
     boolean delete(Account account);
     Account update(Account account);
@@ -18,10 +18,7 @@ public interface AccountDao {
 
 
 
-
-
-
-    Account getAccountsAndEmployeeBy(String accountName);  //命名有问题
+    Account getAccountsAndEmployeeBy(String accountName);
     List<Object[]> getDepartmentAndEmployeesAndAccounts(String accountName);
 
 

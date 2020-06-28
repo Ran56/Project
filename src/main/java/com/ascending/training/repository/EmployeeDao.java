@@ -24,6 +24,6 @@ public interface EmployeeDao {
     Employee getDepartmentAndEmployeesBy(String employeeName);
     List<Object[]> getDepartmentAndEmployeesAndAccounts(String employeeName);
 
-    Employee getByDepartment(Department department);
+    List<Employee> getByDepartment(Department department);
 
 }

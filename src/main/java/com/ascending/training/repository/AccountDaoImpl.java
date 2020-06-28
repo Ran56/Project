@@ -1,6 +1,8 @@
 package com.ascending.training.repository;
 
 import com.ascending.training.model.Account;
+import com.ascending.training.model.Department;
+import com.ascending.training.model.Employee;
 import com.ascending.training.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -24,8 +26,6 @@ public class AccountDaoImpl implements AccountDao{
     public Account save(Account account) {
         Transaction transaction = null;
         Session session = sessionFactory.openSession();
-//       session.save(department);
-//        return department;
 
         try{
             transaction = session.beginTransaction();
@@ -44,8 +44,8 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public List<Account> getAccountHQL() {
-        String hql = "From Account";
+    public List<Account> getAccounts() {
+        String hql = "From Account a left join fetch a.employee";
         Session s = sessionFactory.openSession();
         List<Account> result = new ArrayList<>();
 
@@ -64,7 +64,23 @@ public class AccountDaoImpl implements AccountDao{
 
     @Override
     public Account getBy(Long id) {
-        return null;
+        String hql = "From Account a left join fetch a.employee where a.id =:Id";
+        Session session = sessionFactory.openSession();
+        Account result = new Account();
+        try
+        {
+            Query<Account> query = session.createQuery(hql);
+            query.setParameter("Id",id);
+            result = query.uniqueResult();
+            session.close();
+
+        }
+        catch(HibernateException e)
+        {
+            logger.error("failure to retrieve data record",e);
+            session.close();
+        }
+        return result;
     }
 
     @Override
@@ -94,7 +110,23 @@ public class AccountDaoImpl implements AccountDao{
 
     @Override
     public Account update(Account account) {
-        return null;
+        Transaction transaction = null;
+        Session session = sessionFactory.openSession();
+        try
+        {
+            transaction = session.beginTransaction();
+            session.update(account);
+            transaction.commit();
+            session.close();
+            return account;
+        }
+        catch(Exception e)
+        {
+            if(transaction != null) transaction.rollback();
+            logger.error("failure to insert record",e);
+            session.close();
+            return null;
+        }
     }
 
     @Override
@@ -109,13 +141,25 @@ public class AccountDaoImpl implements AccountDao{
 
     @Override
     public Account getAccountEagerBy(Long id) {
-        return null;
+        String hql = "FROM Account d LEFT JOIN FETCH d.employee where d.id=:Id";
+        Session session = sessionFactory.openSession();
+        try {
+            Query<Account> query = session.createQuery(hql);
+            query.setParameter("Id",id);
+            Account result = query.uniqueResult();
+            session.close();
+            return result;
+        }catch (HibernateException e){
+            logger.error("failure to retrieve data record",e);
+            session.close();
+            return null;
+        }
     }
 
     @Override
     public Account getAccountByName(String accountName) {
-        return null;
-    }
+            return null;
+    }  //Account has no name;
 
     @Override
     public Account getAccountsAndEmployeeBy(String accountName) {

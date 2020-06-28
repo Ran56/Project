@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= ApplicationBootstrap.class)
@@ -99,7 +100,7 @@ public class EmployeeDaoTest {
     public void getEmployeeByDepartmentTest()
     {
 
-        Employee employee = employeeDao.getByDepartment(department);
+        List<Employee> employee = employeeDao.getByDepartment(department);
         //int expected =1;
         Assert.assertNotNull(employee);
 
