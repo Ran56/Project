@@ -147,7 +147,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
         catch(Exception e)
         {
             if(transaction != null) transaction.rollback();
-            logger.error("failure to insert record",e);
+            logger.error("failure to update record",e);
             session.close();
             return null;
         }

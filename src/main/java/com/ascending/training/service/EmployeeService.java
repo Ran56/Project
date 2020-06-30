@@ -19,16 +19,8 @@ public class EmployeeService {
     @Autowired
     private AccountDao accountDao;
 
-// service logic example
-    public Employee save(Employee employee){
 
-        Account account = new Account();
-        account.setEmployee(employee);
-
-
-        accountDao.save(account);
-        return employeeDao.save(employee);
-    }
+    public Employee save(Employee employee){ return employeeDao.save(employee); }
 
     public List<Employee> getEmployees(){return employeeDao.getEmployees(); }
 

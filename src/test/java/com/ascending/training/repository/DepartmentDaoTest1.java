@@ -84,7 +84,6 @@ public class DepartmentDaoTest1 {
     Assert.assertNotNull(department);
     Assert.assertEquals(department.getName(),d1.getName());
     Assert.assertTrue(department.getEmployeeSet().size()>0);
-        //怎么存过去到set里？？？？？
 
 }
 
