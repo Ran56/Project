@@ -38,6 +38,8 @@ import java.util.Set;
         )
         private Set<Role> roles;
 
+
+
         public long getId() {
             return id;
         }
@@ -102,14 +104,15 @@ import java.util.Set;
             this.roles = roles;
         }
 
+
         public void addRole(Role role)
         {
             this.roles.add(role);
             role.getUsers().add(this);
+        }// 确保在roles里添加role后   同时由于Many to Many的原因也要在role.getUsers()也就是users里
+         // 里添加user！！！ 方便更新，这样以后只需要调用addRole方法就可以了
 
-        }
-
-        public void removeRole(Role role)
+        public void removeRole(Role role)//remove同理addRole
         {
             this.roles.remove(role);
             role.getUsers().remove(this);

@@ -93,6 +93,7 @@ public class Role {
         this.allowedDelete = allowedDelete;
     }
 
+
     public Set<User> getUsers() {
         return users;
     }
@@ -100,6 +101,7 @@ public class Role {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -120,3 +122,21 @@ public class Role {
         return Objects.hash(id, name, allowedResource, allowedRead, allowedCreate, allowedUpdate, allowedDelete);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
