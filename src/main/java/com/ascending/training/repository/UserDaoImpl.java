@@ -1,6 +1,7 @@
 package com.ascending.training.repository;
 
 import com.ascending.training.model.Department;
+import com.ascending.training.model.Employee;
 import com.ascending.training.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -43,7 +44,22 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(Long id) {
-        return null;
+        String hql = "FROM User u where u.id =:id";
+        Session session = sessionFactory.openSession();
+        try
+        {
+            Query<User> query = session.createQuery(hql);
+            query.setParameter("id",id);
+            User result = query.uniqueResult();
+            session.close();
+            return result;
+        }
+        catch(HibernateException e)
+        {
+            logger.error("failure to retrieve data record", e);
+            session.close();
+            return null;
+        }
     }
 
     @Override
@@ -52,8 +68,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUserByCredentials(String email, String password) {
-        return null;
+    public User getUserByCredentials(String username, String password) {
+        String hql = "From User u where u.name=:username and u.password=:password ";
+        Session s = sessionFactory.openSession();
+        User result = null;
+
+        try {
+            Query<User> query = s.createQuery(hql);
+            query.setParameter("username",username);
+            query.setParameter("password",password);
+            result = query.uniqueResult();
+            s.close();
+        }
+        catch(HibernateException e)
+        {
+            logger.error("session close exception try again...",e);
+            s.close();
+        }
+        return result;
     }
 
     @Override
@@ -97,5 +129,42 @@ public class UserDaoImpl implements UserDao {
             s.close();
         }
         return result;
+    }
+
+    @Override
+    public User update(User user) {
+        Transaction transaction = null;
+        Session session = sessionFactory.openSession();
+        try{
+            transaction = session.beginTransaction();
+            session.update(user);
+            transaction.commit();
+            session.close();
+            return user;
+        }
+        catch(Exception e)
+        {
+            if(transaction != null) transaction.rollback();
+            logger.error("failure to update record",e);
+            session.close();
+            return null;
+        }
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        String hql = "FROM User as u where u.name = :name";
+        Session session = sessionFactory.openSession();
+        try {
+            Query<User> query = session.createQuery(hql);
+            query.setParameter("name", name);
+            User user = query.uniqueResult();
+            session.close();
+            return user;
+        } catch (HibernateException e) {
+            session.close();
+            logger.error("unable to retrieve record", e);
+            return null;
+        }
     }
 }

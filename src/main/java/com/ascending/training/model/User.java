@@ -1,6 +1,9 @@
 package com.ascending.training.model;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -33,10 +36,10 @@ import java.util.Set;
 
         @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
         @JoinTable(name = "users_role",
-                joinColumns =  {@JoinColumn(name = "user_id") },
-                inverseJoinColumns = {@JoinColumn(name = "role_id")}
+                joinColumns =  {@JoinColumn(name = "user_id") },//owning side
+                inverseJoinColumns = {@JoinColumn(name = "role_id")}//inverse side
         )
-        private Set<Role> roles;
+        private Set<Role> roles = new HashSet<>();//如果不实例化则addUser方法无法add
 
 
 
@@ -61,7 +64,8 @@ import java.util.Set;
         }
 
         public void setPassword(String password) {
-            this.password = password;
+            this.password = DigestUtils.md5Hex(password.trim());
+
         }
 
         public String getSecretKey() {

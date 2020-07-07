@@ -2,6 +2,7 @@ package com.ascending.training.service;
 
 import com.ascending.training.ApplicationBootstrap;
 import com.ascending.training.model.User;
+import io.jsonwebtoken.Claims;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,24 @@ public class JWTServiceTest {
         u.setId(10);
         u.setName("RyanZ");
         String token = jwtService.generateToken(u);
-        logger.debug("hello world");
+        String[] arr = token.split("\\.");
         Assert.assertNotNull(token);
+        Assert.assertEquals(3,arr.length);//验证两点三段式
+    }
+
+
+
+
+
+    @Test
+    public void decryptJwtTokenTest()
+    {
+        User u = new User();
+        u.setId(10);
+        u.setName("RyanZ");
+        String token = jwtService.generateToken(u);
+        Claims claims = jwtService.decryptJwtToken(token);
+        Assert.assertNotNull(claims);
+        Assert.assertEquals(claims.getSubject(),"RyanZ");
     }
 }

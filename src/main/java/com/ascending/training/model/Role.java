@@ -4,6 +4,7 @@ package com.ascending.training.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -33,9 +34,9 @@ public class Role {
     @Column(name = "allowed_delete")
     private boolean allowedDelete;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();//如果不实例化则addUser方法无法add
 
     public long getId() {
         return id;

@@ -1,5 +1,6 @@
 package com.ascending.training.service;
 
+import com.ascending.training.model.Employee;
 import com.ascending.training.model.User;
 import com.ascending.training.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,16 @@ public class UserService {
        return userDao.findAllUsers();
     }
 
-    public User getUserByCredentials(String email, String password)
-    {
-        return userDao.getUserByCredentials(email,password);
-    }
+    public User getUserByCredentials(String email, String password) { return userDao.getUserByCredentials(email,password); }
 
+    public User save(User user){ return userDao.save(user); }
 
+    public User getById(Long id)
+   {
+       return userDao.findById(id);
+   }
+
+    public User update(User user){ return userDao.update(user); }
 
 
 
