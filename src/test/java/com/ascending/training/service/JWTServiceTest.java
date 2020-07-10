@@ -32,10 +32,6 @@ public class JWTServiceTest {
         Assert.assertEquals(3,arr.length);//验证两点三段式
     }
 
-
-
-
-
     @Test
     public void decryptJwtTokenTest()
     {

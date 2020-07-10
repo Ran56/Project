@@ -1,6 +1,5 @@
 package com.ascending.training.repository;
 
-import com.ascending.training.model.Department;
 import com.ascending.training.model.Role;
 import com.ascending.training.model.User;
 import org.hibernate.HibernateException;
@@ -103,15 +102,14 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     public void delete(Role role) {
         String hql = "DELETE Role as r where r.id = :Id";
-        int deletedCount = 0;
         Transaction transaction = null;
         Session session = sessionFactory.openSession();
         try
         {
             transaction = session.beginTransaction();
-            Query<Department> query = session.createQuery(hql);
+            Query<Role> query = session.createQuery(hql);
             query.setParameter("Id", role.getId());
-            deletedCount = query.executeUpdate();
+            query.executeUpdate();
             transaction.commit();
             session.close();
         }

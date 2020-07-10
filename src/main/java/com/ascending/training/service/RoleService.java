@@ -23,7 +23,12 @@ public class RoleService {
         return roleDao.findAllRoles();
     }
 
+    public void delete(Role role){ roleDao.delete(role);}
 
+    public Role save(Role role) { return roleDao.save(role);}
 
+    public Role update(Role role) { return roleDao.update(role);}
+
+    public Role getById(Long id){ return roleDao.findById(id);}
 
 }

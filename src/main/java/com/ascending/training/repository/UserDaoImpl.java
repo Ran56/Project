@@ -1,7 +1,5 @@
 package com.ascending.training.repository;
 
-import com.ascending.training.model.Department;
-import com.ascending.training.model.Employee;
 import com.ascending.training.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -91,15 +89,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void delete(User user) {
         String hql = "DELETE User as u where u.id = :Id";
-        int deletedCount = 0;
         Transaction transaction = null;
         Session session = sessionFactory.openSession();
         try
         {
             transaction = session.beginTransaction();
-            Query<Department> query = session.createQuery(hql);
+            Query<User> query = session.createQuery(hql);
             query.setParameter("Id", user.getId());
-            deletedCount = query.executeUpdate();
+            query.executeUpdate();
             transaction.commit();
             session.close();
         }

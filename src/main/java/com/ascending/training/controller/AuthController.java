@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +33,7 @@ public class AuthController {//登陆然后返回token
 
     //      /auth POST LOGIN
     @RequestMapping(value = "",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)//一般登陆都是POST
-    public String authentication(@RequestBody User user)
+    public ResponseEntity<String> authentication(@RequestBody User user)
     {
 
         logger.debug("username is "+user.getName() +" password is "+user.getPassword());
@@ -42,13 +44,13 @@ public class AuthController {//登陆然后返回token
             Map<String,String> map = new HashMap<>();//用map存数据在postman中返回json格式的token
             map.put("token",token);
             String json = new ObjectMapper().writeValueAsString(map);
-
-            return json;
+            return new ResponseEntity<>(json, HttpStatus.OK);
         }catch(Exception e)
         {
             e.printStackTrace();
+            logger.error("UNAUTHORIZED",e);
+            return new ResponseEntity<>("Your username or password is incorrect", HttpStatus.UNAUTHORIZED);
         }
-        return null;
     }
 
     //      /auth/ POST CREATE

@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "role")
+@Table(name = "role")//role就是赋予user的权限
 public class Role {
 
     @Id

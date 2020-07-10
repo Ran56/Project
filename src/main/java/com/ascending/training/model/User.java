@@ -138,6 +138,13 @@ import java.util.Set;
 
         @Override
         public int hashCode() {
+//            final int prime = 31;
+//            int result = 1;
+//            result = prime * result + (int)id;
+//            result = prime * result + firstName.hashCode();
+//            result = prime * result + lastName.hashCode();
+//            result = prime * result + email.hashCode();
+//            return result;
             return Objects.hash(id, name, password, secretKey, firstName, lastName, email);
         }
     }
