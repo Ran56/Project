@@ -1,6 +1,7 @@
 package com.ascending.training.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 
@@ -14,8 +15,10 @@ public class Employee {
     @Id  //标示这是primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //标示这是Bigserial 自动加1
     @Column(name = "id")
+//    @JsonView(Department.BasicView.class)
     private long id;
 
+//    @JsonView(Department.BasicView.class)
     @Column(name = "name")
     private String name;
 

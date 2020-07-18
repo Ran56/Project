@@ -65,8 +65,25 @@ public class SecurityFilter implements Filter {
             if(claims.getId()!=null){
                 User u = userService.getById(Long.valueOf(claims.getId()));
                 if(u==null) return statusCode;
-                statusCode = HttpServletResponse.SC_ACCEPTED;
+                //statusCode = HttpServletResponse.SC_ACCEPTED;
             }
+
+
+            String allowedResources = "/";
+            switch(verb) {
+                case "GET"    : allowedResources = (String)claims.get("allowedReadResources");   break;
+                case "POST"   : allowedResources = (String)claims.get("allowedCreateResources"); break;
+                case "PUT"    : allowedResources = (String)claims.get("allowedUpdateResources"); break;
+                case "DELETE" : allowedResources = (String)claims.get("allowedDeleteResources"); break;
+            }
+//
+            for (String s : allowedResources.split(",")) {
+                if (uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())) {
+                    statusCode = HttpServletResponse.SC_ACCEPTED;
+                    break;
+                }
+            }
+//            allowedResources.split(",").fo(s->{});
         }
         catch (Exception e) {
             logger.error("can't verify the token",e);

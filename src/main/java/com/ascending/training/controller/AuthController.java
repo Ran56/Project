@@ -42,6 +42,7 @@ public class AuthController {//登陆然后返回token
             String token = jwtService.generateToken(u);
 
             Map<String,String> map = new HashMap<>();//用map存数据在postman中返回json格式的token
+                                                    //如果返回的是对象，由于有annotation所以会自动转换为json格式
             map.put("token",token);
             String json = new ObjectMapper().writeValueAsString(map);
             return new ResponseEntity<>(json, HttpStatus.OK);

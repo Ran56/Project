@@ -3,6 +3,7 @@ package com.ascending.training.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,12 +16,16 @@ public class Department {
 //    public static class ExtendView extends BasicView{}
 //    public static class BasicView{}
 //
+//public static class ExtendedView extends BasicView{}
+//public static class BasicView{}
 
    @Id  //标示这是primary key
    @GeneratedValue(strategy = GenerationType.IDENTITY)  //标示这是Bigserial 自动加1
    @Column(name = "id")
+//   @JsonView(BasicView.class)
     private long id;
 
+//   @JsonView(BasicView.class)
    @Column(name = "name")
     private String name;
 
@@ -33,6 +38,7 @@ public class Department {
 
    @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
    @JsonIgnore
+//   @JsonView(ExtendedView.class)
     private Set<Employee> employeeSet;
 
 

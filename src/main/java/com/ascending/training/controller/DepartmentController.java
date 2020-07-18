@@ -23,6 +23,7 @@ public class DepartmentController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     //      /department GET
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<Department> getDepartments()
     {
@@ -31,6 +32,7 @@ public class DepartmentController {
     }
 
     //      /department/2 GET
+//    @JsonView(Department.ExtendedView.class)
     @RequestMapping(value = "/{Id}", method = RequestMethod.GET)
     public Department getDepartmentById(@PathVariable(name = "Id") Long id)
     {

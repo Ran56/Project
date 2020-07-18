@@ -104,6 +104,15 @@ public class Role {
     }
 
 
+    public boolean isAllowedRead(){ return  allowedRead;}
+    // if get boolean value, it always use isAllowedRead(), instead of getAllowedRead();
+    public boolean isAllowedCreate(){ return  allowedCreate;}
+    public boolean isAllowedUpdate(){ return  allowedUpdate;}
+    public boolean isAllowedDelete(){ return  allowedDelete;}
+
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
