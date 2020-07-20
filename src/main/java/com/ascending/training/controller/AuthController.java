@@ -60,7 +60,7 @@ public class AuthController {//登陆然后返回token
     {
         logger.debug("Creating user ");
         User user1 = userService.save(user);
-        Role role = roleService.getRoleByName("Manager");
+        Role role = roleService.getRoleByName("user");
         user1.addRole(role);
         userService.update(user1);
         return user1;

@@ -78,7 +78,7 @@ public class SecurityFilter implements Filter {
             }
 //
             for (String s : allowedResources.split(",")) {
-                if (uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())) {
+                if (s!=""&&uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())) {
                     statusCode = HttpServletResponse.SC_ACCEPTED;
                     break;
                 }

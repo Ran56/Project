@@ -30,6 +30,7 @@ public class UserService {
 
     public User update(User user){ return userDao.update(user); }
 
+    public User getUserByName(String name){ return userDao.getUserByName(name); }
 
 
 }
