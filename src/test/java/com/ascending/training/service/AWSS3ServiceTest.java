@@ -24,15 +24,15 @@ public class AWSS3ServiceTest {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Before
-public void setUp(){}
+    public void setUp(){}
 
-@After
+    @After
     public  void tearDown(){}
 
     @Test
     public void testCreateBucket()
     {
-        String bucketName = "ran-s3-bucket-9";
+        String bucketName = "ran-s3-bucket-4";
         Bucket bucket = awss3Service.createBucket(bucketName);
         Assert.assertNotNull(bucket);
     }
