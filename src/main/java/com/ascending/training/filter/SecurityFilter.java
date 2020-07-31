@@ -69,16 +69,18 @@ public class SecurityFilter implements Filter {
             }
 
 
-            String allowedResources = "/";
+            String allowedResources = "";
             switch(verb) {
                 case "GET"    : allowedResources = (String)claims.get("allowedReadResources");   break;
                 case "POST"   : allowedResources = (String)claims.get("allowedCreateResources"); break;
                 case "PUT"    : allowedResources = (String)claims.get("allowedUpdateResources"); break;
                 case "DELETE" : allowedResources = (String)claims.get("allowedDeleteResources"); break;
+                case "PATCH" : allowedResources = (String)claims.get("allowedUpdateResources"); break;
             }
 //
             for (String s : allowedResources.split(",")) {
                 if (s!=""&&uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())) {
+                                                    //trim: remove leading and trailing spaces
                     statusCode = HttpServletResponse.SC_ACCEPTED;
                     break;
                 }

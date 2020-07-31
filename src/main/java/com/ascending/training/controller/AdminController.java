@@ -54,6 +54,10 @@ public class AdminController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
+
+        user.getRoles().clear();// avoid to one environment: when demote user'role, if there is no
+        // user.getRoles().clear(), this user will still has previous role
+
         user.addRole(role1);
         return new ResponseEntity<>(userService.update(user), HttpStatus.OK);
     }
