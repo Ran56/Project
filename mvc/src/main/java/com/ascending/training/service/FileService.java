@@ -58,6 +58,7 @@ public class FileService {
 //        <version>24.1.1-jre</version>
 //        </dependency>
 
+
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());
         objectMetadata.setContentLength(file.getSize());
@@ -75,7 +76,7 @@ public class FileService {
         GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, s3Key);
         generatePresignedUrlRequest.withMethod(HttpMethod.GET);
         generatePresignedUrlRequest.withExpiration(Date.from(expiration.toInstant(ZoneOffset.UTC)));
-        //??
+        //?
         URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
         return url;
     }
