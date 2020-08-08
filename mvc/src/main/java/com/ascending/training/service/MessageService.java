@@ -16,13 +16,14 @@ public class MessageService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private String queueName;
+    private String queueName = System.getProperty("queueName");
 
     private AmazonSQS sqsClient;
 //    private AmazonSQS sqsClient = AmazonSQSClientBuilder.standard()
 //            .withCredentials(new DefaultAWSCredentialsProviderChain())
 //            .build();
     private String queueUrl;
+
     public MessageService(@Autowired AmazonSQS sqsClient)
     {
         this.sqsClient = sqsClient;

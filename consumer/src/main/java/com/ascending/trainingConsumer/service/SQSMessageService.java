@@ -1,6 +1,7 @@
 package com.ascending.trainingConsumer.service;
 
-
+import com.amazon.sqs.javamessaging.SQSConnection;
+import com.amazon.sqs.javamessaging.SQSConnectionFactory;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.GetQueueUrlResult;
 import com.amazonaws.services.sqs.model.Message;
@@ -9,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +28,7 @@ public class SQSMessageService {
     private String queueName;
 
 
-    public void receiveMessage(){
+    public List<Message> receiveMessage(){
         System.out.println("Receiving messages from MyQueue.\n");
         final ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(getQueueUrl(queueName));
         final List<Message> msg = sqsClient.receiveMessage(receiveMessageRequest).getMessages();
@@ -42,14 +45,21 @@ public class SQSMessageService {
                 System.out.println("  Value: " + entry.getValue());
             }
             sqsClient.deleteMessage(getQueueUrl(queueName),message.getReceiptHandle());
+            //?getReceiptHandle作用？
+            //message进入到queue中应该是poll()为什么是用deleteMessage()方法
         }
         System.out.println();
+        return msg;
     }
 
     public String getQueueUrl(String queueName) {
-        GetQueueUrlResult getQueueUrlResult = sqsClient.getQueueUrl(queueName);
-        logger.info("QueueUrl: " + getQueueUrlResult.getQueueUrl());
+        GetQueueUrlResult getQueueUrlResult = sqsClient.getQueueUrl(queueName);//return GetQueueUrlResult
+        logger.info("QueueUrl: " + getQueueUrlResult.getQueueUrl());//return string
         return getQueueUrlResult.getQueueUrl();
+
     }
+
+
+
 
 }
