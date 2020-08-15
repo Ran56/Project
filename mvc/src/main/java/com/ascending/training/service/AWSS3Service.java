@@ -54,8 +54,11 @@ public class AWSS3Service {
             logger.info("bucket name: {} is not available."
                     + " Try again with a different Bucket name.", bucketName);
         }
+
         return bucket;
     }
+
+
 
 
 }

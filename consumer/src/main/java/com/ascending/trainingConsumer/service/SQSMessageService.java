@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class SQSMessageService {
     private Logger logger = LoggerFactory.getLogger(getClass());

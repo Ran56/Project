@@ -8,15 +8,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.jms.MessageConsumer;
 import java.io.IOException;
 
-@Component
+@Service
 public class ProcessService {
+//@Component 写configurations
 
     @Autowired
     private ProcessService processService;
+
+
+
     private Logger logger = LoggerFactory.getLogger(getClass());
     String receiveNumber = System.getProperty("receiveNumber");
     String sendNumber = System.getProperty("sendNumber");

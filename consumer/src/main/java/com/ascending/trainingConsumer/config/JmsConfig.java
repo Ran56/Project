@@ -32,6 +32,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableJms
+//@EnableJms enables detection of @link JmsListener
 //@EnableJms,when start spring, this annotation will execute connection.start().
 public class JmsConfig {
 

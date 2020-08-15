@@ -35,7 +35,12 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-       //1. extract Authorization header
+        if (userService == null) {
+            SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, servletRequest.getServletContext());
+        }
+
+
+        //1. extract Authorization header
        //2.remove Bearer to get token
        //3. decrypt token to get claim
        //4. verify username information in our database from claim
