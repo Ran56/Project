@@ -72,7 +72,7 @@ public class DepartmentDaoTest1 {
     public void getDepartmentsTest()
 {
     List<Department> departments = departmentDao.getDepartments();
-    int expected =5;
+    int expected =1;
     Assert.assertEquals(expected, departments.size());
 
 }
