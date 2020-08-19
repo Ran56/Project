@@ -164,9 +164,9 @@
           <version>6.4.2</version>
           <configuration>
             <driver>org.postgresql.Driver</driver>
-            <url>jdbc:postgresql://localhost:5432/dealer</url>
-            <user>admin</user>
-            <password>password</password>
+            <url>${database.url}</url>
+            <user>${database.user}</user>
+            <password>${database.password}</password>
             <schemas>
               <schema>public</schema>
             </schemas>
